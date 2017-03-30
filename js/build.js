@@ -61,7 +61,7 @@ function init(){
         setTimeout(function(){
           refreshData().then(function(){
             refreshChart();
-            if (data.auto_refresh) {
+            if (data.autoRefresh) {
               getLatestData();
             }
           });
@@ -77,7 +77,7 @@ function init(){
             events: {
               load: function(){
                 refreshChartInfo();
-                if (data.auto_refresh) {
+                if (data.autoRefresh) {
                   getLatestData();
                 }
               }
@@ -91,8 +91,8 @@ function init(){
           },
           xAxis: {
             title: {
-              text: data.x_axis_title,
-              enabled: data.x_axis_title !== ''
+              text: data.xAxisTitle,
+              enabled: data.xAxisTitle !== ''
             },
             labels: {
               formatter: function(){
@@ -108,20 +108,20 @@ function init(){
           },
           yAxis: {
             title: {
-              text: data.y_axis_title,
-              enabled: data.y_axis_title !== ''
+              text: data.yAxisTitle,
+              enabled: data.yAxisTitle !== ''
             }
           },
           tooltip: {
-            enabled: data.show_data_values,
+            enabled: data.showDataValues,
             headerFormat: '',
             pointFormat: [
               '<strong>',
-              (data.x_axix_title !== '' ? data.x_axix_title : 'x'),
+              (data.xAxisTitle !== '' ? data.xAxisTitle : 'x'),
               '</strong> ',
               (data.dataFormat === 'timestamp' ? '{point.x:%Y-%m-%d %H:%M:%S}' : '{point.x}'),
               '<br><strong>',
-              (data.y_axix_title !== '' ? data.y_axix_title : 'y'),
+              (data.yAxisTitle !== '' ? data.yAxisTitle : 'y'),
               '</strong>: {point.y}'
             ].join('')
           },
