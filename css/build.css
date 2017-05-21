@@ -1,15 +1,9 @@
-.highcharts-credits {
-    display: none;
+.chart-line-updatedAt,
+.chart-line-total {
+  text-align: center;
+  color: #c2c2c2;
 }
-.highcharts-axis-line {
-    stroke: #6c9f1f;
-}
-.chart-scatter-updatedAt,
-.chart-scatter-total {
-    text-align: center;
-    color: #c2c2c2;
-}
-.chart-scatter-updatedAt > .updatedAt,
-.chart-scatter-total > .total {
-    color: #888888;
+.chart-line-updatedAt > .updatedAt,
+.chart-line-total > .total {
+  color: #888888;
 }
