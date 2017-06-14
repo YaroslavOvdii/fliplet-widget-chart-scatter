@@ -16,6 +16,20 @@
       }
 
       function refreshData() {
+        if (!data.dataSourceQuery) {
+          data.entries = [
+            {x: 1, y: 2},
+            {x: 2, y: 1.5},
+            {x: 3, y: 4},
+            {x: 4, y: 1},
+            {x: 5, y: 2},
+            {x: 6, y: 2.5}
+          ];
+          data.xAxisTitle = 'X-axis';
+          data.yAxisTitle = 'Y-axis';
+          data.totalEntries = 6;
+          return Promise.resolve()
+        }
         return Fliplet.DataSources.fetchWithOptions(data.dataSourceQuery).then(function(result){
           resetData();
           if (result.dataSource.columns.indexOf(data.dataSourceQuery.columns.xAxis) < 0 || result.dataSource.columns.indexOf(data.dataSourceQuery.columns.yAxis) < 0) {
@@ -35,6 +49,8 @@
           data.totalEntries = data.entries.length;
 
           return Promise.resolve();
+        }).catch(function(error){
+          return Promise.reject(error);
         });
       }
 
@@ -79,7 +95,7 @@
           chart: {
             type: 'scatter',
             zoomType: 'xy',
-            renderTo: $container.find('.chart-scatter-container')[0],
+            renderTo: $container.find('.chart-container')[0],
             style: {
               fontFamily: (Fliplet.Themes && Fliplet.Themes.Current.get('bodyFontFamily')) || 'sans-serif'
             },
@@ -175,7 +191,9 @@
         ui.flipletCharts[chartId] = new Highcharts.Chart(chartOpt);
       }
 
-      refreshData().then(drawChart);
+      refreshData().then(drawChart).catch(function(error){
+        console.error(error);
+      });
     });
   }
 
