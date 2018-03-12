@@ -182,7 +182,23 @@
             }
           },
           series: [{
-            data: data.entries
+            data: data.entries,
+            events: {
+              click: function () {
+                Fliplet.Analytics.trackEvent({
+                  category: 'chart',
+                  action: 'data_point_interact',
+                  title: 'scatter'
+                });
+              },
+              legendItemClick: function () {
+                Fliplet.Analytics.trackEvent({
+                  category: 'chart',
+                  action: 'legend_filter',
+                  title: 'scatter'
+                });
+              }
+            }
           }],
           legend: {
             enabled: false
