@@ -30,28 +30,33 @@
           data.totalEntries = 6;
           return Promise.resolve()
         }
-        return Fliplet.DataSources.fetchWithOptions(data.dataSourceQuery).then(function(result){
-          resetData();
-          if (result.dataSource.columns.indexOf(data.dataSourceQuery.columns.xAxis) < 0 || result.dataSource.columns.indexOf(data.dataSourceQuery.columns.yAxis) < 0) {
-            return Promise.resolve();
-          }
-          result.dataSourceEntries.forEach(function(row) {
-            var x;
-            if (data.dataFormat === 'timestamp') {
-              x = new Date(row[data.dataSourceQuery.columns.xAxis] || 0).getTime()
-            } else {
-              x = parseInt(row[data.dataSourceQuery.columns.xAxis], 10) || 0;
-            }
-            var y = parseInt(row[data.dataSourceQuery.columns.yAxis], 0) || 0;
-            data.entries.push([x, y]);
-          });
-          // SAVES THE TOTAL NUMBER OF ROW/ENTRIES
-          data.totalEntries = data.entries.length;
 
-          return Promise.resolve();
-        }).catch(function(error){
-          return Promise.reject(error);
-        });
+        return Fliplet.Hooks.run('beforeQueryChart', data.dataSourceQuery).then(function() {
+          return Fliplet.DataSources.fetchWithOptions(data.dataSourceQuery)
+        }).then(function(result){
+          return Fliplet.Hooks.run('afterQueryChart', result).then(function() {
+            resetData();
+            if (result.dataSource.columns.indexOf(data.dataSourceQuery.columns.xAxis) < 0 || result.dataSource.columns.indexOf(data.dataSourceQuery.columns.yAxis) < 0) {
+              return Promise.resolve();
+            }
+            result.dataSourceEntries.forEach(function(row) {
+              var x;
+              if (data.dataFormat === 'timestamp') {
+                x = new Date(row[data.dataSourceQuery.columns.xAxis] || 0).getTime()
+              } else {
+                x = parseInt(row[data.dataSourceQuery.columns.xAxis], 10) || 0;
+              }
+              var y = parseInt(row[data.dataSourceQuery.columns.yAxis], 0) || 0;
+              data.entries.push([x, y]);
+            });
+            // SAVES THE TOTAL NUMBER OF ROW/ENTRIES
+            data.totalEntries = data.entries.length;
+
+            return Promise.resolve();
+          }).catch(function(error){
+            return Promise.reject(error);
+          });
+        })
       }
 
       function refreshChartInfo() {
@@ -178,7 +183,23 @@
             }
           },
           series: [{
-            data: data.entries
+            data: data.entries,
+            events: {
+              click: function () {
+                Fliplet.Analytics.trackEvent({
+                  category: 'chart',
+                  action: 'data_point_interact',
+                  label: 'scatter'
+                });
+              },
+              legendItemClick: function () {
+                Fliplet.Analytics.trackEvent({
+                  category: 'chart',
+                  action: 'legend_filter',
+                  label: 'scatter'
+                });
+              }
+            }
           }],
           legend: {
             enabled: false
