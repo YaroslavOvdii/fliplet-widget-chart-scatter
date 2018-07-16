@@ -143,6 +143,11 @@
               enabled: data.yAxisTitle !== ''
             }
           },
+          navigation: {
+            buttonOptions: {
+              enabled: false
+            }
+          },
           tooltip: {
             enabled: data.showDataValues,
             headerFormat: '',
