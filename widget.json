@@ -1,7 +1,7 @@
 {
   "name": "Chart: Scatter",
   "package": "com.fliplet.chart.scatter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "icon": "img/icon.png",
   "tags": ["type:component", "category:charts"],
   "provider_only": false,
