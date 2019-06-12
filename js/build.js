@@ -225,7 +225,7 @@
         $(this).find('.chart-styles').remove();
       }
 
-      Fliplet.Hooks.on('appearanceChanged', () => {
+      Fliplet.Hooks.on('appearanceChanged', function () {
         ui.flipletCharts[chartId].reflow();
       });
 
