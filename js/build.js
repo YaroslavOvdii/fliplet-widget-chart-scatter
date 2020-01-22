@@ -129,7 +129,7 @@
       }
 
       function drawChart() {
-        return new Promise(function () {
+        return new Promise(function (resolve, reject) {
           var colors = [
             '#00abd1', '#ed9119', '#7D4B79', '#F05865', '#36344C',
             '#474975', '#8D8EA6', '#FF5722', '#009688', '#E91E63'
