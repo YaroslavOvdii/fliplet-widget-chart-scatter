@@ -3,10 +3,9 @@
   ui.flipletCharts = ui.flipletCharts || {};
 
   function init() {
-    $('[data-chart-scatter-id]').each(function (i, el) {
-      var chartId = $(this).data('chart-scatter-id');
-      var data = Fliplet.Widget.getData(chartId);
-      var $container = $(el);
+    Fliplet.Widget.instance('chart-scatter', function (data) {
+      var chartId = data.id;
+      var $container = $(this);
       var refreshTimeout = 5000;
       var updateDateFormat = 'hh:mm:ss a';
 
